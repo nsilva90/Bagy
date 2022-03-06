@@ -84,16 +84,28 @@ print("\n"
 "Resposta:")
 
 cursor.execute(
-    "select Country, SUM(Quantity) VolumeTotal from dados_ecommerce "
-    "group by Country "
-    "order by VolumeTotal desc "
-    "limit 1 "
+    # "select Country, SUM(Quantity) VolumeTotal from dados_ecommerce "
+    # "group by Country "
+    "select StockCode, sum(quantity) quantity from dados_ecommerce "
+    "where Country = (select Country from dados_ecommerce group by Country order by SUM(Quantity) desc limit 1) "
+    "group by StockCode order by Quantity desc limit 1 "
 )
 
 for line in cursor.fetchall():
-    print(f"País com maior volume de vendas: {line[0]}")
+    print(f"O item mais vendido foi: {line[0]}, com {line[1]} unidades vendidas")
 
 print("\n"
 "3.2) Qual o item menos vendido no país com maior volume de vendas?\n"
 "\n"
 "Resposta:")
+
+cursor.execute(
+    # "select Country, SUM(Quantity) VolumeTotal from dados_ecommerce "
+    # "group by Country "
+    "select StockCode, sum(quantity) quantity from dados_ecommerce "
+    "where Country = (select Country from dados_ecommerce group by Country order by SUM(Quantity) desc limit 1) "
+    "group by StockCode order by Quantity limit 1 "
+)
+
+for line in cursor.fetchall():
+    print(f"O item menos vendido foi: {line[0]}, com {line[1]} unidades vendidas")
