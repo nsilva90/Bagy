@@ -30,11 +30,11 @@ cursor.execute(
 for line in cursor.fetchall():
     print(f"StoreId: {line[0]}, Volume total de itens vendidos: {line[1]}, Valor total vendido: {line[2]}")
 
+# ----------------------------------------------------------------------------------------------
 
 # Desafio 2
 
 print("\n"
-"--------------------------------------------------------------------------------------------\n"
 "\n"
 "2.1) Qual ticket médio mensal dos pedidos apresentados?\n"
 "\n"
@@ -71,10 +71,27 @@ cursor.execute(
 for line in cursor.fetchall():
     print(f"Mês: {line[0]}, Média de vendas: {line[1]}")
 
+# ----------------------------------------------------------------------------------------------
 
+# Desafio 3
 
+print("\n"
+"\n"
+"3.1) Qual o item mais vendido no país com maior volume de vendas?\n"
+"\n"
+"Resposta:")
 
+cursor.execute(
+    "select Country, SUM(Quantity) VolumeTotal from dados_ecommerce "
+    "group by Country "
+    "order by VolumeTotal desc "
+    "limit 1 "
+)
 
+for line in cursor.fetchall():
+    print(f"País com maior volume de vendas: {line[0]}")
 
-
-
+print("\n"
+"3.2) Qual o item menos vendido no país com maior volume de vendas?\n"
+"\n"
+"Resposta:")
