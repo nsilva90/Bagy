@@ -11,6 +11,8 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
+# ----------------------------------------------------------------------------------------------------
+
 # Desafio 1
 
 print("1) Quais as 10 lojas com maior faturamento em pedidos? Sumarize os dados dessa loja apresentando os seguintes campos:\n"
@@ -28,9 +30,9 @@ cursor.execute(
 )
 
 for line in cursor.fetchall():
-    print(f"StoreId: {line[0]}, Volume total de itens vendidos: {line[1]}, Valor total vendido: {line[2]}")
+    print(f"StoreId: {line[0]}, Volume total de itens vendidos: {round(line[1], 0)}, Valor total vendido: $ {round(line[2], 2)}")
 
-# ----------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
 # Desafio 2
 
@@ -53,7 +55,7 @@ cursor.execute(
 )
 
 for line in cursor.fetchall():
-    print(f"Mês: {line[0]}, Média de Valor dos Pedidos: {line[1]}")
+    print(f"Mês: {line[0]}, Média de Valor dos Pedidos: $ {round(line[1], 2)}")
 
 print("\n"
 "2.2) Qual o volume médio mensal de vendas (todas as lojas)?\n"
@@ -69,9 +71,9 @@ cursor.execute(
 )
 
 for line in cursor.fetchall():
-    print(f"Mês: {line[0]}, Média de vendas: {line[1]}")
+    print(f"Mês: {line[0]}, Média de vendas: {round(line[1], 0)}")
 
-# ----------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
 # Desafio 3
 
