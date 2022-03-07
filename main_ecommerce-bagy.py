@@ -23,10 +23,10 @@ print("1) Quais as 10 lojas com maior faturamento em pedidos? Sumarize os dados 
 "Resposta:")
 
 cursor.execute(
-    'select StoreId, SUM(Quantity) Quantity, SUM(UnitPrice) Billing '
-    'from dados_ecommerce '
-    'group by StoreId '
-    'order by sum(UnitPrice) desc limit 10 '
+    "select StoreId, SUM(Quantity) AS TotaldeItensVendidos, SUM(Quantity * UnitPrice) AS ValorTotal "
+    "from dados_ecommerce "
+    "group by StoreId "
+    "order by ValorTotal desc limit 10 "
 )
 
 for line in cursor.fetchall():
