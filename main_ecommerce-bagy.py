@@ -22,13 +22,15 @@ print("1) Quais as 10 lojas com maior faturamento em pedidos? Sumarize os dados 
 "\n"
 "Resposta:")
 
+# O 'cursor execute' envia as 'querys' para o servidor SQL e armazena os dados retornados:
 cursor.execute(
-    "select StoreId, SUM(Quantity) AS TotaldeItensVendidos, SUM(Quantity * UnitPrice) AS ValorTotal "
-    "from dados_ecommerce "
-    "group by StoreId "
-    "order by ValorTotal desc limit 10 "
+    "SELECT StoreId, SUM(Quantity) AS TotaldeItensVendidos, SUM(Quantity * UnitPrice) AS ValorTotal "
+    "FROM dados_ecommerce "
+    "GROUP BY StoreId "
+    "ORDER BY ValorTotal DESC LIMIT 10 "
 )
 
+# Através de um loop, o 'cursor fetchall' busca cada um dos registros armazenados como tuplas no cursor e os apresenta em forma de lista:
 for line in cursor.fetchall():
     print(f"StoreId: {line[0]}, Volume total de itens vendidos: {round(line[1], 0)}, Valor total vendido: $ {round(line[2], 2)}")
 
@@ -40,36 +42,46 @@ print("\n"
 "\n"
 "2.1) Qual ticket médio mensal dos pedidos apresentados?\n"
 "\n"
-"Resposta:")
+"Resposta:\n")
 
+# O 'cursor execute' envia as 'querys' para o servidor SQL e armazena os dados retornados:
 cursor.execute(
-    "select date_format(data, '%M') mes, AVG(TotalValue) InvoiceValues "
-    "from "
-    "(select str_to_date(InvoiceDate, '%m/%d/%Y') data, "
-    "InvoiceNo, "
-    "SUM(Quantity * UnitPrice) TotalValue "
-    "from dados_ecommerce "
-    "group by data, InvoiceNo) data_trunced "
-    "group by mes "
-    "order by InvoiceValues desc "
+    "SELECT date_format(data, '%M') AS Mes, AVG(ValorTotal) AS TicketMedioDosPedidos "
+    "FROM "
+        "(SELECT str_to_date(InvoiceDate, '%m/%d/%Y') AS data, "
+        "InvoiceNo, "
+        "SUM(Quantity * UnitPrice) AS ValorTotal "
+        "FROM dados_ecommerce "
+        "GROUP BY data, InvoiceNo) AS date "
+    "GROUP BY Mes "
+    "ORDER BY TicketMedioDosPedidos desc "
 )
 
+print(f"- Os resultados estão ordenados em ordem decrescente, do mês com maior ticket médio para o menor:\n")
+# Através de um loop, o 'cursor fetchall' busca cada um dos registros armazenados como tuplas no cursor e os apresenta em forma de lista:
 for line in cursor.fetchall():
-    print(f"Mês: {line[0]}, Média de Valor dos Pedidos: $ {round(line[1], 2)}")
+    print(f"Mês: {line[0]} - Ticket médio dos pedidos: $ {round(line[1], 2)}")
 
 print("\n"
 "2.2) Qual o volume médio mensal de vendas (todas as lojas)?\n"
 "\n"
-"Resposta:")
+"Resposta:\n")
 
+# O 'cursor execute' envia as 'querys' para o servidor SQL e armazena os dados retornados: 
 cursor.execute(
-    "select date_format(str_to_date(InvoiceDate, '%m/%d/%Y'), '%M') mes, "
-    "AVG(Quantity) media "
-    "from dados_ecommerce "
-    "group by mes "
-    "order by media desc "
+"SELECT date_format(data, '%M') AS Mes, AVG(NumeroDePedidos) AS MediaDePedidos "
+"FROM "
+	"(SELECT str_to_date(InvoiceDate, '%m/%d/%Y') AS data, "
+	"StoreId, "
+	"COUNT(InvoiceNo) AS NumeroDePedidos "
+	"FROM dados_ecommerce "
+	"GROUP BY data, StoreId) AS date "
+"GROUP BY Mes "
+"ORDER BY MediaDePedidos desc "
 )
 
+print(f"- Os resultados estão ordenados em ordem decrescente, do mês com a maior média de vendas para o menor:\n")
+# Através de um loop, o 'cursor fetchall' busca cada um dos registros armazenados como tuplas no cursor e os apresenta em forma de lista:
 for line in cursor.fetchall():
     print(f"Mês: {line[0]}, Média de vendas: {round(line[1], 0)}")
 
