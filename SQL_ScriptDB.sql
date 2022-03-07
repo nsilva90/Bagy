@@ -31,6 +31,53 @@ select count(*) from dados_ecommerce; -- 541909 registros ok
 -- Validação de exibição dos dados:
 select * from dados_ecommerce;
 
+------------------------------------------------------------------------------------------------
 
+-- Validação das Querys no SQL antes de implementar no código Python:
 
+use bagy;
 
+-- Desafio 1 
+SELECT StoreId, SUM(Quantity) AS TotaldeItensVendidos, SUM(Quantity * UnitPrice) AS ValorTotal
+FROM dados_ecommerce
+GROUP BY StoreId
+ORDER BY ValorTotal DESC LIMIT 10;
+
+-- Desafio 2.1     
+SELECT date_format(data, '%M') AS Mes, AVG(ValorTotal) AS TicketMedioDosPedidos
+FROM
+	(SELECT str_to_date(InvoiceDate, '%m/%d/%Y') AS data,
+	InvoiceNo,
+	SUM(Quantity * UnitPrice) AS ValorTotal
+	FROM dados_ecommerce
+	GROUP BY data, InvoiceNo) AS date
+GROUP BY Mes
+ORDER BY TicketMedioDosPedidos desc;
+
+-- Desafio 2.2  
+SELECT date_format(data, '%M') AS Mes,
+AVG(NumeroDePedidos) AS MediaDePedidos
+FROM
+	(SELECT str_to_date(InvoiceDate, '%m/%d/%Y') AS data,
+	StoreId,
+	COUNT(InvoiceNo) AS NumeroDePedidos
+	FROM dados_ecommerce
+	GROUP BY data, StoreId) AS date
+GROUP BY Mes
+ORDER BY MediaDePedidos DESC;
+
+-- Desafio 3.1  
+SELECT Country, Description, sum(quantity) AS QuantidadeTotal FROM dados_ecommerce 
+WHERE Country = 
+	(SELECT Country 
+	FROM dados_ecommerce 
+	GROUP BY Country 
+	ORDER BY SUM(Quantity) DESC 
+	LIMIT 1) 
+GROUP BY Description, Country 
+ORDER BY QuantidadeTotal DESC LIMIT 1;
+
+-- Desafio 3.2    
+-- select StockCode, sum(quantity) quantity from dados_ecommerce 
+-- where Country = (select Country from dados_ecommerce group by Country order by SUM(Quantity) desc limit 1) 
+-- group by StockCode order by Quantity limit 1

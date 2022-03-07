@@ -77,7 +77,7 @@ cursor.execute(
 	"FROM dados_ecommerce "
 	"GROUP BY data, StoreId) AS date "
 "GROUP BY Mes "
-"ORDER BY MediaDePedidos desc "
+"ORDER BY MediaDePedidos DESC "
 )
 
 print(f"- Os resultados estão ordenados em ordem decrescente, do mês com a maior média de vendas para o menor:\n")
@@ -93,18 +93,21 @@ print("\n"
 "\n"
 "3.1) Qual o item mais vendido no país com maior volume de vendas?\n"
 "\n"
-"Resposta:")
+"Resposta:\n")
 
 cursor.execute(
-    # "select Country, SUM(Quantity) VolumeTotal from dados_ecommerce "
-    # "group by Country "
-    "select StockCode, sum(quantity) quantity from dados_ecommerce "
-    "where Country = (select Country from dados_ecommerce group by Country order by SUM(Quantity) desc limit 1) "
-    "group by StockCode order by Quantity desc limit 1 "
+    "SELECT Country, Description, sum(quantity) AS QuantidadeTotal FROM dados_ecommerce "
+    "WHERE Country = "
+        "(SELECT Country FROM dados_ecommerce "
+        "GROUP BY Country "
+        "ORDER BY SUM(Quantity) DESC "
+        "LIMIT 1) "
+    "GROUP BY Description, Country "
+    "ORDER BY QuantidadeTotal DESC LIMIT 1 "
 )
 
 for line in cursor.fetchall():
-    print(f"O item mais vendido foi: {line[0]}, com {line[1]} unidades vendidas")
+    print(f"O país com maior volume de vendas foi {line[0]} e o item mais vendido foi {line[1]} com {line[2]} unidades comercializadas")
 
 print("\n"
 "3.2) Qual o item menos vendido no país com maior volume de vendas?\n"
