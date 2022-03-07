@@ -16,11 +16,7 @@ cursor = conn.cursor()
 # Desafio 1
 
 print("1) Quais as 10 lojas com maior faturamento em pedidos? Sumarize os dados dessa loja apresentando os seguintes campos:\n"
-"- StoreId\n"
-"- Volume total de itens vendidos\n"
-"- Valor total vendido\n"
-"\n"
-"Resposta:")
+"- StoreId\n""- Volume total de itens vendidos\n""- Valor total vendido\n""\n""Resposta:\n")
 
 # O 'cursor' executa as 'querys' no banco de dados SQL e armazena os dados retornados:
 cursor.execute(
@@ -39,11 +35,7 @@ for line in cursor.fetchall():
 # Desafio 2
 
 # 2.1)
-print("\n"
-"\n"
-"2.1) Qual ticket médio mensal dos pedidos apresentados?\n"
-"\n"
-"Resposta:\n")
+print("\n""\n""2.1) Qual ticket médio mensal dos pedidos apresentados?\n""\n""Resposta:\n")
 
 # O 'cursor' executa as 'querys' no banco de dados SQL e armazena os dados retornados:
 cursor.execute(
@@ -60,15 +52,11 @@ cursor.execute(
 
 # Através de um loop 'for', o 'fetchall' busca cada um dos registros armazenados como tuplas no cursor e os apresenta em forma de lista:
 print(f"- Os resultados estão ordenados em ordem decrescente, do mês com maior ticket médio para o menor:\n")
-
 for line in cursor.fetchall():
     print(f"Mês: {line[0]} - Ticket médio dos pedidos: $ {round(line[1], 2)}")
 
 # 2.2)
-print("\n"
-"2.2) Qual o volume médio mensal de vendas (todas as lojas)?\n"
-"\n"
-"Resposta:\n")
+print("\n""2.2) Qual o volume médio mensal de vendas (todas as lojas)?\n""\n""Resposta:\n")
 
 # O 'cursor' executa as 'querys' no banco de dados SQL e armazena os dados retornados:
 cursor.execute(
@@ -85,7 +73,6 @@ cursor.execute(
 
 # Através de um loop 'for', o 'fetchall' busca cada um dos registros armazenados como tuplas no cursor e os apresenta em forma de lista:
 print(f"- Os resultados estão ordenados em ordem decrescente, do mês com a maior média de vendas para o menor:\n")
-
 for line in cursor.fetchall():
     print(f"Mês: {line[0]}, Média de vendas: {round(line[1], 0)}")
 
@@ -94,11 +81,7 @@ for line in cursor.fetchall():
 # Desafio 3
 
 # 3.1)
-print("\n"
-"\n"
-"3.1) Qual o item mais vendido no país com maior volume de vendas?\n"
-"\n"
-"Resposta:\n")
+print("\n""\n""3.1) Qual o item mais vendido no país com maior volume de vendas?\n""\n""Resposta:\n")
 
 # O 'cursor' executa as 'querys' no banco de dados SQL e armazena os dados retornados:
 cursor.execute(
@@ -117,10 +100,7 @@ for line in cursor.fetchall():
     print(f"O país com maior volume de vendas foi {line[0]} e o item mais vendido foi {line[1]} com {line[2]} unidades comercializadas")
 
 # 3.2)
-print("\n"
-"3.2) Qual o item menos vendido no país com maior volume de vendas?\n"
-"\n"
-"Resposta:")
+print("\n""3.2) Qual o item menos vendido no país com maior volume de vendas?\n""\n""Resposta:\n")
 
 # O 'cursor' executa as 'querys' no banco de dados SQL e armazena os dados retornados:
 cursor.execute(
@@ -137,4 +117,3 @@ cursor.execute(
 # Através de um loop 'for', o 'fetchall' busca cada um dos registros armazenados como tuplas no cursor e os apresenta em forma de lista:
 for line in cursor.fetchall():
     print(f"O país com maior volume de vendas foi {line[0]} e o item menos vendido foi {line[1]} com {line[2]} unidades comercializadas")
-    
